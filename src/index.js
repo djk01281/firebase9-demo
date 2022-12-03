@@ -1,4 +1,5 @@
-import { inintializeApp, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyATCD9cxXSJ2RSUwd9WSDHTDMV7FuSaCgo",
@@ -11,3 +12,10 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
+
+const provider = new GoogleAuthProvider();
+const signInBtn = document.getElementById("signInBtn");
+const auth = getAuth();
+signInBtn.onclick = function () {
+  signInWithPopup(auth, provider);
+};
