@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  getRedirectResult,
+  signInWithRedirect,
+  onAuthStateChanged,
+  signInWithPopup,
+} from "firebase/auth";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyATCD9cxXSJ2RSUwd9WSDHTDMV7FuSaCgo",
@@ -11,11 +18,32 @@ const firebaseConfig = {
   measurementId: "G-HFF9Z86BJM",
 };
 
-initializeApp(firebaseConfig);
+const test = document.createElement("div");
+test.innerText = "testing...";
+document.body.appendChild(test);
 
-const provider = new GoogleAuthProvider();
-const signInBtn = document.getElementById("signInBtn");
+initializeApp(firebaseConfig);
 const auth = getAuth();
+
+const signInBtn = document.getElementById("signInBtn");
 signInBtn.onclick = function () {
-  signInWithPopup(auth, provider);
+  const provider = new GoogleAuthProvider();
+  provider.addScope("profile");
+  provider.addScope("email");
+
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      const outputDiv = document.createElement("div");
+      // outputDiv.textContent = Object.keys(user);
+      //providerId,proactiveRefresh,reloadUserInfo,reloadListener,uid,auth,stsTokenManager,accessToken,displayName,email,emailVerified,phoneNumber,photoURL,isAnonymous,tenantId,providerData,metadata
+      outputDiv.textContent = user.displayName;
+      document.body.appendChild(outputDiv);
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      const outputDiv = document.createElement("div");
+      outputDiv.textContent = errorMessage;
+      document.body.appendChild(outputDiv);
+    });
 };
