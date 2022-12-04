@@ -18,10 +18,6 @@ const firebaseConfig = {
   measurementId: "G-HFF9Z86BJM",
 };
 
-const test = document.createElement("div");
-test.innerText = "testing...";
-document.body.appendChild(test);
-
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
@@ -34,16 +30,16 @@ signInBtn.onclick = function () {
   signInWithPopup(auth, provider)
     .then((result) => {
       const user = result.user;
-      const outputDiv = document.createElement("div");
+      const outputElement = document.createElement("h1");
       // outputDiv.textContent = Object.keys(user);
       //providerId,proactiveRefresh,reloadUserInfo,reloadListener,uid,auth,stsTokenManager,accessToken,displayName,email,emailVerified,phoneNumber,photoURL,isAnonymous,tenantId,providerData,metadata
-      outputDiv.textContent = user.displayName;
-      document.body.appendChild(outputDiv);
+      outputElement.textContent = `Welcome, ${user.displayName}`;
+      document.body.appendChild(outputElement);
     })
     .catch((error) => {
       const errorMessage = error.message;
-      const outputDiv = document.createElement("div");
-      outputDiv.textContent = errorMessage;
+      const outputElement = document.createElement("h1");
+      outputElement.textContent = `Error: ${errorMessage}`;
       document.body.appendChild(outputDiv);
     });
 };
